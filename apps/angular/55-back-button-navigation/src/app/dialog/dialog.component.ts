@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -14,7 +14,6 @@ import {
   imports: [
     MatButtonModule,
     MatDialogActions,
-    MatDialogClose,
     MatDialogTitle,
     MatDialogContent,
   ],
@@ -22,4 +21,14 @@ import {
 })
 export class DialogComponent {
   readonly dialogRef = inject(MatDialogRef<DialogComponent>);
+  readonly dialogData = inject(MAT_DIALOG_DATA);
+
+  onReject() {
+    this.dialogRef.close();
+  }
+
+  async onConfirm(): Promise<void> {
+    await this.dialogData.onConfirm?.();
+    this.dialogRef.close();
+  }
 }

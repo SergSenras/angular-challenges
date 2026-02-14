@@ -1,6 +1,13 @@
-<h2 mat-dialog-title>Delete file</h2>
-<mat-dialog-content>Would you like to delete cat.jpeg?</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+<h2 mat-dialog-title>{{dialogData.title}}</h2>
+<mat-dialog-content>
+  {{dialogData.content}}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="onReject()">
+    {{ 'No' }}
+  </button>
+
+  <button mat-raised-button color="primary" (click)="onConfirm()">
+    {{ 'Yes' }}
+  </button>
 </mat-dialog-actions>
