@@ -14,6 +14,5 @@ export class SimpleActionComponent {
   openDialog(): void {
     const confirmed = this.dialogService.open(DialogPresets.deleteImage());
     if (!confirmed) return;
-    this.dialogService.onDelete();
   }
 }

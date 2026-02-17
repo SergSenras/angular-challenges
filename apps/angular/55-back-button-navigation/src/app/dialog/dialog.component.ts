@@ -24,11 +24,11 @@ export class DialogComponent {
   readonly dialogData = inject(MAT_DIALOG_DATA);
 
   onReject() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   async onConfirm(): Promise<void> {
     await this.dialogData.onConfirm?.();
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 }

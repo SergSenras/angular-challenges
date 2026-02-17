@@ -5,7 +5,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { DialogComponent } from './dialog.component';
-import { DialogConfig } from './dialog.models';
+import { DialogConfig, DialogType } from './dialog.models';
 
 interface StackItem {
   data: DialogConfig;
@@ -20,11 +20,21 @@ export class DialogService {
   private readonly dialog = inject(MatDialog);
   private readonly stack = signal<StackItem[]>([]);
 
+  isAnyDialogOpen(): boolean {
+    return this.stack().length > 0;
+  }
+  isLeavePageDialogOpen(): boolean {
+    if (!this.isAnyDialogOpen()) return false;
+
+    const arr = this.stack();
+    const current = arr[arr.length - 1];
+    return current.data.type === DialogType.LEAVE;
+  }
+
   open(data: DialogConfig): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       const current = this.getTop();
 
-      // якщо новий має вищий priority → закриваємо поточний
       if (current && current.data.priority < data.priority) {
         current.ref?.close();
       }
@@ -33,6 +43,7 @@ export class DialogService {
 
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
+      dialogConfig.closeOnNavigation = false;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '250px';
       dialogConfig.data = data;
@@ -75,6 +86,11 @@ export class DialogService {
       this.remove(ref);
       this.restorePrevious();
     });
+  }
+
+  closeAll() {
+    this.dialog.closeAll();
+    this.stack.set([]);
   }
 
   onDelete() {

@@ -15,6 +15,5 @@ export class SensitiveActionComponent {
   openDialog(): void {
     const confirmed = this.dialogService.open(DialogPresets.deleteSensitive());
     if (!confirmed) return;
-    this.dialogService.onDelete();
   }
 }
