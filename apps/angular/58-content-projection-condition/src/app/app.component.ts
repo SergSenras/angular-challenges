@@ -6,12 +6,20 @@ import { CardComponent } from './card.component';
   selector: 'app-root',
   template: `
     <app-card>
-      <div title>Card 1</div>
-      <div message>Message 1</div>
+      <ng-template #title>
+        <div>Card 1</div>
+      </ng-template>
+      <ng-template #message>
+        <div>Message 1</div>
+      </ng-template>
     </app-card>
     <app-card [small]="true">
-      <div title>Card 2</div>
-      <div message>Message 2</div>
+      <ng-template #title>
+        <div>Card 2</div>
+      </ng-template>
+      <ng-template #message>
+        <div>Message 2</div>
+      </ng-template>
     </app-card>
   `,
   host: {

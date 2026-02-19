@@ -1,17 +1,25 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  contentChild,
+  input,
+  TemplateRef,
+} from '@angular/core';
 
 @Component({
+  imports: [CommonModule],
   selector: 'app-card',
   template: `
     @if (small()) {
-      <ng-content select="[title]" />
-      <ng-content select="[message]" />
+      <ng-container [ngTemplateOutlet]="title()" />
+      <ng-container [ngTemplateOutlet]="message()" />
     } @else {
       <div class="p-4">
         <div class="text-2xl">
-          <ng-content select="[title]" />
+          <ng-container [ngTemplateOutlet]="title()" />
         </div>
-        <ng-content select="[message]" />
+        <ng-container [ngTemplateOutlet]="message()" />
       </div>
     }
   `,
@@ -22,4 +30,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class CardComponent {
   small = input<boolean>(false);
+  title = contentChild.required<TemplateRef<any>>('title');
+  message = contentChild.required<TemplateRef<any>>('message');
 }
